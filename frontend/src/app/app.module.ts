@@ -14,6 +14,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { ToastrModule } from 'ngx-toastr';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DatePipe } from '@angular/common';
 
 import { environment } from '@env/environment';
 import { BASE_URL, httpInterceptorProviders, appInitializerProviders } from '@core';
@@ -54,6 +55,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     { provide: BASE_URL, useValue: environment.baseUrl },
+    DatePipe,
     httpInterceptorProviders,
     appInitializerProviders,
   ],

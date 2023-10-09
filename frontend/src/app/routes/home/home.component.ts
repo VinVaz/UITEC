@@ -1,8 +1,10 @@
 import {
   Component,
   OnInit,
+  AfterViewInit,
   OnDestroy,
   ChangeDetectionStrategy,
+  NgZone,
 } from '@angular/core';
 import { SettingsService } from '@core';
 import { Subscription } from 'rxjs';
@@ -10,19 +12,29 @@ import { Subscription } from 'rxjs';
 import { HomeService } from './home.service';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [HomeService],
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = this.dashboardSrv.getData();
+  dataSource = this.homeSrv.getData();
+
+  messages = this.homeSrv.getMessages();
+
+  charts = this.homeSrv.getCharts();
+  chart1: any;
+  chart2: any;
+
+  stats = this.homeSrv.getStats();
+
   notifySubscription!: Subscription;
 
   constructor(
-    private dashboardSrv: HomeService,
+    private ngZone: NgZone,
+    private homeSrv: HomeService,
     private settings: SettingsService
   ) {}
 
@@ -32,9 +44,25 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterViewInit() {
+    this.ngZone.runOutsideAngular(() => this.initChart());
+  }
 
   ngOnDestroy() {
+    if (this.chart1) {
+      this.chart1?.destroy();
+    }
+    if (this.chart2) {
+      this.chart2?.destroy();
+    }
+
     this.notifySubscription.unsubscribe();
   }
 
+  initChart() {
+    this.chart1 = new ApexCharts(document.querySelector('#chart1'), this.charts[0]);
+    this.chart1?.render();
+    this.chart2 = new ApexCharts(document.querySelector('#chart2'), this.charts[1]);
+    this.chart2?.render();
+  }
 }

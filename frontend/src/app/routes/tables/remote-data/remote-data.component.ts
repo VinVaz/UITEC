@@ -2,47 +2,43 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MtxGridColumn } from '@ng-matero/extensions/grid';
 import { finalize } from 'rxjs';
-import { TablesRemoteDataService } from './remote-data.service';
+import { ProductService, Product } from './remote-data.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-tables-remote-data',
   templateUrl: './remote-data.component.html',
   styleUrls: ['./remote-data.component.scss'],
-  providers: [TablesRemoteDataService],
+  providers: [ProductService],
 })
 export class TablesRemoteDataComponent implements OnInit {
   columns: MtxGridColumn[] = [
+    { header: 'ID', field: 'id' },
+    { header: 'Product', field: 'product_name', width: '100px' },
+    { header: 'Category', field: 'category_id' },
+    { header: 'Value', field: 'product_value', type: 'number' },
     {
-      header: 'Name',
-      field: 'name',
-      formatter: (data: any) => `<a href="${data.html_url}" target="_blank">${data.name}</a>`,
+      header: 'Expiration Date',
+      field: 'expiration_date',
+      formatter: (data: any) => this.formatDate(data.expiration_date),
     },
-    { header: 'Owner', field: 'owner.login' },
-    { header: 'Owner Avatar', field: 'owner.avatar_url', type: 'image' },
-    { header: 'Description', field: 'description', width: '300px' },
-    { header: 'Stars', field: 'stargazers_count', type: 'number' },
-    { header: 'Forks', field: 'forks_count', type: 'number' },
-    { header: 'Score', field: 'score', type: 'number' },
-    { header: 'Issues', field: 'open_issues', type: 'number' },
-    { header: 'Language', field: 'language' },
-    { header: 'License', field: 'license.name' },
-    { header: 'Home Page', field: 'homepage', type: 'link' },
-    { header: 'Is forked', field: 'fork', type: 'boolean' },
+    { header: 'Stock Quantity', field: 'stock_quantity', type: 'number' },
+    { header: 'Perishable', field: 'perishable', type: 'boolean' },
     {
-      header: 'Archived',
-      field: 'archived',
-      type: 'tag',
-      tag: {
-        true: { text: 'Yes', color: 'red-100' },
-        false: { text: 'No', color: 'green-100' },
-      },
+      header: 'Created Date',
+      field: 'created_at',
+      formatter: (data: any) => this.formatDate(data.created_at),
     },
-    { header: 'Created Date', field: 'created_at' },
-    { header: 'Updated Date', field: 'updated_at' },
+    {
+      header: 'Updated Date',
+      field: 'updated_at',
+      formatter: (data: any) => this.formatDate(data.updated_at),
+    }
   ];
-  list: any[] = [];
+  products: Product[] = [];
   total = 0;
   isLoading = true;
+
 
   query = {
     q: 'user:nzbin',
@@ -58,43 +54,35 @@ export class TablesRemoteDataComponent implements OnInit {
     return p;
   }
 
-  constructor(private remoteSrv: TablesRemoteDataService) {}
+  constructor(private datePipe: DatePipe, private productService: ProductService) {}
+
+  formatDate(dateString: string | null): string {
+    if (!dateString) {
+      return '-';
+    }
+    const parsedDate = new Date(dateString);
+    return this.datePipe.transform(parsedDate, 'medium') || ''; 
+  }
 
   ngOnInit() {
-    this.getList();
+    this.loadProducts();
   }
 
-  getList() {
-    this.isLoading = true;
-
-    this.remoteSrv
-      .getList(this.params)
-      .pipe(
-        finalize(() => {
-          this.isLoading = false;
-        })
-      )
-      .subscribe(res => {
-        this.list = res.items;
-        this.total = res.total_count;
+  loadProducts() {
+    this.productService.getProducts(this.params).pipe(
+      finalize(() => {
         this.isLoading = false;
-      });
+      })
+    ).subscribe(res => {
+      this.products = res.products;
+      this.total = res.total_count;
+      this.isLoading = false;
+    });
   }
-
+ 
   getNextPage(e: PageEvent) {
     this.query.page = e.pageIndex;
     this.query.per_page = e.pageSize;
-    this.getList();
-  }
-
-  search() {
-    this.query.page = 0;
-    this.getList();
-  }
-
-  reset() {
-    this.query.page = 0;
-    this.query.per_page = 10;
-    this.getList();
+    this.loadProducts();
   }
 }

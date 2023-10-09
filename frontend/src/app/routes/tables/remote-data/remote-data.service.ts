@@ -2,17 +2,32 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-export interface RepoSearchList {
-  incomplete_results: boolean;
-  items: any[];
-  total_count: number;
+export interface Product {
+  id: number;
+  product_name: string;
+  category_id: number;
+  product_value: number;
+  expiration_date: string;
+  stock_quantity: number;
+  perishable: boolean;
+  created_at: string; 
+  updated_at: string; 
 }
 
-@Injectable()
-export class TablesRemoteDataService {
+interface APIResponse {
+  products: Product[]
+  total_count: number
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProductService {
+  private apiUrl = 'http://localhost:8000/api';
   constructor(private http: HttpClient) {}
 
-  getList(params = {}): Observable<RepoSearchList> {
-    return this.http.get<RepoSearchList>('https://api.github.com/search/repositories', { params });
+  getProducts(params={}): Observable<APIResponse> {
+    return this.http.get<APIResponse>(`${this.apiUrl}/products`, {params});
   }
+
 }
