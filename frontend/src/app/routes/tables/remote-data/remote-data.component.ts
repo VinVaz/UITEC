@@ -6,6 +6,7 @@ import { finalize } from 'rxjs';
 import { ProductService, Product } from './remote-data.service';
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+import { RemoteDataEditComponent } from './edit/edit.component';
 
 
 @Component({
@@ -45,6 +46,12 @@ export class TablesRemoteDataComponent implements OnInit {
       pinned: 'right',
       type: 'button',
       buttons: [
+        {
+          type: 'icon',
+          icon: 'edit',
+          tooltip: this.translate.stream('table_kitchen_sink.edit'),
+          click: record => this.edit(record),
+        },
         {
           type: 'icon',
           color: 'warn',
@@ -95,11 +102,24 @@ export class TablesRemoteDataComponent implements OnInit {
     this.loadProducts();
   }
 
+  edit(record: any) {
+    const dialogRef = this.dialog.originalOpen(RemoteDataEditComponent, {
+      width: '600px',
+      data: {Id: record.id, ...record },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadProducts();
+      }
+    });
+  }
+
   delete(record: any) {
     this.productService.deleteProduct(record.id).subscribe(() => {
         this.loadProducts();
     });
-}
+  }
 
   loadProducts() {
     this.productService.getProducts(this.params).pipe(

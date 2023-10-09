@@ -17,6 +17,10 @@ export class ProductService {
     return this.http.delete<void>(`${this.apiUrl}/products/${productId}`);
   }
 
+  editProduct(id: number, updatedProduct: Product): Observable<Product> {
+    const editUrl = `${this.apiUrl}/products/${id}`;
+    return this.http.put<Product>(editUrl, {updatedProduct, id});
+  }
 }
 
 export interface Product {
@@ -27,8 +31,8 @@ export interface Product {
   expiration_date: string;
   stock_quantity: number;
   perishable: boolean;
-  created_at: string; 
-  updated_at: string; 
+  created_at?: string; 
+  updated_at?: string; 
 }
 
 interface APIResponse {

@@ -29,11 +29,11 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'productName' => 'required|string|max:255',
+            'product_name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'productValue' => 'required|numeric',
-            'expirationDate' => 'required|date',
-            'stockQuantity' => 'required|integer',
+            'product_value' => 'required|numeric',
+            'expiration_date' => 'required|date',
+            'stock_quantity' => 'required|integer',
         ]);
 
         $product = Product::create($validatedData);
@@ -45,17 +45,22 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
 
+        var_dump($request);
+
         if (!$product) {
             return response()->json(['message' => 'Product not found'], Response::HTTP_NOT_FOUND);
         }
 
         $validatedData = $request->validate([
-            'productName' => 'string|max:255',
+            'product_name' => 'string|max:255',
             'category_id' => 'exists:categories,id',
-            'productValue' => 'numeric',
-            'expirationDate' => 'date',
-            'stockQuantity' => 'integer',
+            'product_value' => 'numeric',
+            'expiration_date' => 'date',
+            'stock_quantity' => 'boolean',
+            'perishable' => 'integer',
         ]);
+
+        var_dump($validatedData);
 
         $product->update($validatedData);
 

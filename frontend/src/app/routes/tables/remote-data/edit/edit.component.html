@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Edit Product</h1>
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()" class="form-container">
+  <div class="form-field">
+    <mat-form-field>
+      <input matInput formControlName="product_name" placeholder="Product Name" />
+    </mat-form-field>
+  </div>
+  <div class="form-field">
+    <mat-form-field>
+      <input matInput formControlName="category_id" placeholder="Category" />
+    </mat-form-field>
+  </div>
+  <div class="form-field">
+    <mat-form-field>
+      <input matInput formControlName="product_value" placeholder="Value" type="number" />
+    </mat-form-field>
+  </div>
+  <div class="form-field">
+    <mat-form-field>
+      <input matInput formControlName="expiration_date" placeholder="Expiration Date" />
+    </mat-form-field>
+  </div>
+  <div class="form-field">
+    <mat-form-field>
+      <input matInput formControlName="stock_quantity" placeholder="Stock Quantity" type="number" />
+    </mat-form-field>
+  </div>
+  <div class="form-field">
+    <mat-checkbox formControlName="perishable" >Perishable</mat-checkbox>
+  </div>
+
+  <div class="form-actions">
+    <button mat-button (click)="onClose()">Close</button>
+    <button mat-button type="submit" cdkFocusInitial>Ok</button>
+  </div>
+</form>

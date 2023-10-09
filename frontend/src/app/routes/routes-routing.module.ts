@@ -4,11 +4,11 @@ import { environment } from '@env/environment';
 
 import { AdminLayoutComponent } from '@theme/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from '@theme/auth-layout/auth-layout.component';
-import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './sessions/login/login.component';
 import { RegisterComponent } from './sessions/register/register.component';
 import { Error404Component } from './sessions/404.component';
 import { authGuard } from '@core/authentication';
+import { TablesRemoteDataComponent } from './tables/remote-data/remote-data.component';
 
 const routes: Routes = [
   {
@@ -17,7 +17,7 @@ const routes: Routes = [
     canActivate: [authGuard],
     canActivateChild: [authGuard],
     children: [
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: TablesRemoteDataComponent, pathMatch: 'full' },
       { path: '404', component: Error404Component },
       {
         path: 'material',

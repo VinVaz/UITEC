@@ -297,11 +297,7 @@
       "type": "sub",
       "icon": "format_line_spacing",
       "children": [
-        {
-          "route": "kitchen-sink",
-          "name": "kitchen-sink",
-          "type": "link"
-        },
+     
         {
           "route": "remote-data",
           "name": "remote-data",
