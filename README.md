@@ -1,70 +1,97 @@
-UITEC CHALLENGE
+# UITEC CHALLENGE
 
-Bem-vindo ao project de desafio da UITEC! Este é um sistema de gerenciamento de produtos desenvolvido para ajudá-lo a rastrear informações sobre produtos e categorias. O projeto é dividido em duas partes: a interface do usuário do frontend, construída com Angular, e o backend construído com Laravel, que gerencia toda a lógica e os dados. Neste aplicativo web o usuário tem a capacidade de criar, visualizar, modificar e deletar produtos atravéz de simples e intuitiva interface.
+Bem-vindo ao project de desafio da **UITEC**! Este é um sistema de gerenciamento de produtos desenvolvido para ajudá-lo a rastrear informações sobre produtos e categorias. O projeto é dividido em duas partes: a interface do usuário do frontend, construída com Angular, e o backend construído com Laravel, que gerencia toda a lógica e os dados. Neste aplicativo web o usuário tem a capacidade de criar, visualizar, modificar e deletar produtos atravéz de simples e intuitiva interface.
 
-Sumário
-Pré-requisitos
-Como Começar
-Executando o Backend
-Executando o Frontend
-Uso
-Contribuição
-Licença
-Pré-requisitos
+## Sumário
+
+1. [Pré-requisitos](#Pré-requisitos)
+2. [Como Começar](#Como Comerçar)
+3. [Executando o Backend](#Executando o Backend)
+4. [Executando o Frontend](#Executando o Frontend)
+5. [Uso](#Uso)
+6. [Contribuição](#Contribuição)
+7. [Licença](#Licença)
+
+## Pré-requisitos
+
 Antes de começar, assegure-se de que você tenha atendido aos seguintes requisitos:
 
-Node.js: Certifique-se de ter o Node.js instalado em seu sistema. Você pode baixá-lo aqui.
-Angular CLI: Instale o Angular CLI globalmente executando npm install -g @angular/cli.
-Composer: Se você estiver usando PHP, você precisa ter o Composer instalado. Você pode baixá-lo aqui.
-Banco de Dados: Se o seu projeto usa um banco de dados, assegure-se de que seu servidor de banco de dados esteja funcionando e você tenha as credenciais necessárias.
-Como Começar
+- **Node.js**: Certifique-se de ter o Node.js instalado em seu sistema. Você pode baixá-lo aqui.
+- **Angular CLI**: Instale o Angular CLI globalmente executando `npm install -g @angular/cli`.
+- **Composer**: Se você estiver usando PHP, você precisa ter o Composer instalado. Você pode baixá-lo [aqui](https://getcomposer.org/).
+- **Banco de Dados**: Se o seu projeto usa um banco de dados, assegure-se de que seu servidor de banco de dados esteja funcionando e você tenha as credenciais necessárias.
+
+## Como Começar
+
 Para ter uma cópia local em execução, siga estas etapas simples de exemplo.
 
-Executando o Backend
-Clone o repositório:
-sh
-Copy code
+### Executando o Backend
+
+1. Clone o repositório:
+
+```
 git clone https://github.com/VinVaz/UITEC
-Navegue até o diretório do backend:
-sh
-Copy code
+```
+
+2. Navegue até o diretório do backend:
+
+```
 cd diretorio-do-backend
-Instale as dependências usando o Composer:
-sh
-Copy code
+```
+
+3. Instale as dependências usando o Composer:
+
+```
 composer install
-Crie um arquivo .env com base no .env.example fornecido e configure seu banco de dados e outras configurações necessárias.
-Execute as migrações do banco de dados:
-sh
-Copy code
+```
+
+4. Crie um arquivo `.env` com base no `.env.example` fornecido e configure seu banco de dados e outras configurações necessárias.
+5. Execute as migrações do banco de dados:
+
+```
 php artisan migrate
-Inicie o servidor backend:
-sh
-Copy code
+```
+
+6. Inicie o servidor backend:
+
+```
 php artisan serve
-Executando o Frontend
-Navegue até o diretório do frontend:
-sh
-Copy code
+```
+
+### Executando o Frontend
+
+1. Navegue até o diretório do frontend:
+
+```
 cd diretorio-do-frontend
-Instale as dependências usando npm:
-sh
-Copy code
+```
+
+2. Instale as dependências usando npm:
+
+```
 npm install
-Inicie o servidor de desenvolvimento do Angular:
-sh
-Copy code
+```
+
+3. Inicie o servidor de desenvolvimento do Angular:
+
+```
 ng serve
-Uso
+```
+
+## Uso
+
 Descreva como usar a aplicação. Inclua quaisquer instruções ou comandos necessários.
 
-Contribuição
+## Contribuição
+
 Para contribuir com este projeto, siga estas etapas:
 
-Faça um fork deste repositório.
-Crie um branch: git checkout -b feature/nova-feature
-Faça suas alterações e as commit: git commit -m 'Adicionar alguma feature'
-Faça push para o branch original: git push origin feature/nova-feature
-Crie um pull request.
-Licença
+1. Faça um fork deste repositório.
+2. Crie um branch: git checkout -b feature/nova-feature
+3. Faça suas alterações e as commit: git commit -m 'Adicionar alguma feature'
+4. Faça push para o branch original: git push origin feature/nova-feature
+5. Crie um pull request.
+
+## Licença
+
 Este projeto está licenciado sob a Licença [Nome da Licença] - veja o arquivo LICENSE para detalhes.
