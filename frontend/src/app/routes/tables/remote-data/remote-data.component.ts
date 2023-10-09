@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MtxGridColumn } from '@ng-matero/extensions/grid';
+import { MtxDialog } from '@ng-matero/extensions/dialog';
 import { finalize } from 'rxjs';
 import { ProductService, Product } from './remote-data.service';
 import { DatePipe } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-tables-remote-data',
@@ -33,7 +36,31 @@ export class TablesRemoteDataComponent implements OnInit {
       header: 'Updated Date',
       field: 'updated_at',
       formatter: (data: any) => this.formatDate(data.updated_at),
-    }
+    },
+    {
+      header: 'Operation',
+      field: 'operation',
+      minWidth: 140,
+      width: '140px',
+      pinned: 'right',
+      type: 'button',
+      buttons: [
+        {
+          type: 'icon',
+          color: 'warn',
+          icon: 'delete',
+          tooltip: this.translate.stream('table_kitchen_sink.delete'),
+          pop: {
+            title: this.translate.stream('table_kitchen_sink.confirm_delete'),
+            closeText: this.translate.stream('table_kitchen_sink.close'),
+            okText: this.translate.stream('table_kitchen_sink.ok'),
+          },
+          click: record => {
+              this.delete(record)   
+          },
+        }
+      ],
+    },
   ];
   products: Product[] = [];
   total = 0;
@@ -54,7 +81,7 @@ export class TablesRemoteDataComponent implements OnInit {
     return p;
   }
 
-  constructor(private datePipe: DatePipe, private productService: ProductService) {}
+  constructor(private translate: TranslateService, private datePipe: DatePipe, private productService: ProductService, private dialog: MtxDialog) {}
 
   formatDate(dateString: string | null): string {
     if (!dateString) {
@@ -67,6 +94,12 @@ export class TablesRemoteDataComponent implements OnInit {
   ngOnInit() {
     this.loadProducts();
   }
+
+  delete(record: any) {
+    this.productService.deleteProduct(record.id).subscribe(() => {
+        this.loadProducts();
+    });
+}
 
   loadProducts() {
     this.productService.getProducts(this.params).pipe(
